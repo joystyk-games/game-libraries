@@ -17,7 +17,9 @@ export default defineConfig({
         },
       },
       {
-        ...gyralVitePreset({ optimize: ['@gyral/core'] }),
+        // The preset pre-bundles every installed Gyral browser entry point, so Vite doesn't
+        // discover one mid-run and reload the test page; list only other dependencies in `optimize`.
+        ...gyralVitePreset(),
         test: {
           name: 'browser',
           include: ['packages/*/src/**/*.browser.test.ts'],

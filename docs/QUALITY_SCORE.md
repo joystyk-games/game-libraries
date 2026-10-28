@@ -16,6 +16,22 @@ Keep acceptance evidence in the owning bead. Add a regression for a new failure 
 promote recurring review feedback into a guard or owning document. Do not label an unverified
 area complete merely because adjacent tests pass.
 
+## Gyral 0.3.7 (2026-10-28)
+
+The catalog pins the five Gyral packages the libraries use (core, http, router, ssr and
+testing) to 0.3.7 instead of 0.3.1, and one core is installed. Refreshing the lockfile
+also dropped entries no workspace package uses, left from the repository split. The
+browser project no longer lists `@gyral/core` in `optimize`: Gyral 0.3.7's preset
+pre-bundles its own packages.
+
+Gyral 0.3.2–0.3.7 needed no source or test change. ESLint finds no template rule 16
+sites and the type check finds no reserved prop names. The light-DOM and
+init-after-render changes break no Chromium test. The full `pnpm check` passes: 100 unit
+files with 1,274 tests and 15 skips, 29 browser files with 183 tests, all package builds,
+and the installed consumer for all 17 tarballs, including Gyral SSR hydration and the
+PWA build. A patch Changeset is prepared for the five libraries that depend on Gyral.
+Library versions are unchanged at 0.2.0, and nothing is published.
+
 ## Arcade graphics notices (2026-10-19)
 
 The arcade viewport suppresses empty renderer-status paragraphs. Previously its positioned,

@@ -5,11 +5,11 @@ catalog:
   publint: 0.3.25
   "@arethetypeswrong/cli": 0.18.5
   "@changesets/cli": 3.0.3
-  "@gyral/core": 0.3.1
-  "@gyral/http": 0.3.1
-  "@gyral/router": 0.3.1
-  "@gyral/ssr": 0.3.1
-  "@gyral/testing": 0.3.1
+  "@gyral/core": 0.3.7
+  "@gyral/http": 0.3.7
+  "@gyral/router": 0.3.7
+  "@gyral/ssr": 0.3.7
+  "@gyral/testing": 0.3.7
   axe-core: 4.13.0
   "@types/node": 24.10.1
   "@types/three": 0.186.0
