@@ -1,5 +1,14 @@
 # @joystyk/rooms
 
+## 0.2.1
+
+### Patch Changes
+
+- @joystyk/contracts@0.2.1
+  - @joystyk/identity@0.2.1
+  - @joystyk/kit@0.2.1
+  - @joystyk/ops@0.2.1
+
 ## 0.2.0
 
 ### Minor Changes

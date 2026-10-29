@@ -1,5 +1,16 @@
 # @joystyk/content
 
+## 0.2.1
+
+### Patch Changes
+
+- 6226ce5: Keep companion content packs out of daily puzzle indexes when both share a game ID.
+  Daily indexes now include only canonical game-and-date items, preserving the separate
+  pack catalog and preventing duplicate dates or missing daily files.
+- @joystyk/contracts@0.2.1
+  - @joystyk/daily@0.2.1
+  - @joystyk/kit@0.2.1
+
 ## 0.2.0
 
 ### Patch Changes

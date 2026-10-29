@@ -1,6 +1,6 @@
 {
   "name": "@joystyk/cards-ui",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Shared card-game UI: original card faces and backs, pile layouts, <jy-card-table>, the pointer and keyboard controller for solitaire and other card games, and <jy-card-hand>, the hand widget for multiplayer card games.",
   "private": false,
   "type": "module",

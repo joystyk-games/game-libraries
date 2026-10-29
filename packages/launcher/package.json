@@ -1,6 +1,6 @@
 {
   "name": "@joystyk/launcher",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "The frame around a game: mode picker, local sessions, mounting, the platform overlay, the hand-off and results screens.",
   "private": false,
   "type": "module",

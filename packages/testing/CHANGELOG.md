@@ -1,5 +1,13 @@
 # @joystyk/testing
 
+## 0.2.1
+
+### Patch Changes
+
+- @joystyk/contracts@0.2.1
+  - @joystyk/kit@0.2.1
+  - @joystyk/session@0.2.1
+
 ## 0.2.0
 
 ### Minor Changes

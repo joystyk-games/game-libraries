@@ -1,6 +1,6 @@
 {
   "name": "@joystyk/ops",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Node operations helpers: scheduled SQLite backups, internal Prometheus metrics and canonical network rate-limit keys.",
   "private": false,
   "type": "module",
