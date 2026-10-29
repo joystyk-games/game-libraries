@@ -11,7 +11,7 @@ npm install @joystyk/cards-ui
 ```
 
 Node consumers require Node 24.15 or later. Browser entry points require a modern
-browser and should be loaded in the browser. Tested with Gyral 0.3.1.
+browser and should be loaded in the browser. Tested with Gyral 0.3.7.
 
 | Import | Format |
 | --- | --- |
