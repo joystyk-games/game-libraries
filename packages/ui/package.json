@@ -1,6 +1,6 @@
 {
   "name": "@joystyk/ui",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Joystyk design tokens, frame components, and <ad-slot> with the billboard slot registry and its wire format, built with Gyral.",
   "private": false,
   "type": "module",
@@ -24,10 +24,13 @@
     "prepack": "node ../../scripts/build-package.ts"
   },
   "dependencies": {
-    "@gyral/core": "catalog:",
     "zod": "catalog:"
   },
+  "peerDependencies": {
+    "@gyral/core": "catalog:peers"
+  },
   "devDependencies": {
+    "@gyral/core": "catalog:",
     "@gyral/testing": "catalog:",
     "axe-core": "catalog:",
     "parse5": "catalog:",

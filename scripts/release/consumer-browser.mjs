@@ -6,7 +6,7 @@ import { resolve, extname } from 'node:path';
 import { build } from 'vite';
 import { chromium } from 'playwright';
 import { html } from '@gyral/core';
-import { gyralVitePreset } from '@gyral/core/vite';
+import { gyral } from '@gyral/core/vite';
 import { renderPage } from '@gyral/ssr';
 import '@joystyk/ui/button';
 import { joystykPwa } from '@joystyk/pwa/build';
@@ -18,7 +18,7 @@ const markup = await page.text();
 assert.match(markup, /<button/);
 assert.match(markup, /shadowrootmode/);
 await writeFile('index.html', markup);
-await build({ configFile: false, logLevel: 'warn', build: { manifest: true }, plugins: [...gyralVitePreset({ types: false }).plugins, joystykPwa({
+await build({ configFile: false, logLevel: 'warn', build: { manifest: true }, plugins: [...gyral({ types: false }), joystykPwa({
   release: 'installed-0.1.0', releaseTime: '2026-10-11T12:00:00Z',
   site: async () => ({ games: [], shellPages: ['/'], render: async () => new Response(await readFile('dist/index.html'), { headers: { 'content-type': 'text/html' } }) }),
 })] });

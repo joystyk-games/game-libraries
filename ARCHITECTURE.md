@@ -5,9 +5,10 @@ dependency-free; kit supplies seeded deterministic utilities. Session and room p
 coordinate intentions and authoritative state. Browser adapters own DOM/storage; Node adapters
 own filesystem, SQLite and network effects. Testing is a development dependency.
 
-UI packages use Gyral. Heavy rendering dependencies are isolated in render3d. Every package
-owns its exports, README and adjacent tests. The dependency table is generated from
-`scripts/architecture.json`; run `node scripts/check-architecture.ts --write-docs` after edits.
+UI packages use Gyral, as a caret peer the app supplies (D-07). Heavy rendering dependencies
+are isolated in render3d. Every package owns its exports, README and adjacent tests. The
+dependency table is generated from `scripts/architecture.json`; run
+`node scripts/check-architecture.ts --write-docs` after edits.
 
 <!-- architecture-table:start -->
 | Code | May import | Notes |

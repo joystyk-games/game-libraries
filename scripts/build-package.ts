@@ -5,7 +5,7 @@ import { builtinModules } from 'node:module';
 import { dirname, join, relative, resolve } from 'node:path';
 import ts from 'typescript';
 import { build } from 'vite';
-import { gyralVitePreset } from '@gyral/core/vite';
+import { gyral } from '@gyral/core/vite';
 import { isTestFile, PACKAGE_NAMES, readManifest, ROOT } from './release/packages.ts';
 
 const directory = process.cwd();
@@ -36,7 +36,7 @@ const external = (id: string): boolean =>
 
 rmSync(out, { recursive: true, force: true });
 await build({
-  ...gyralVitePreset(),
+  plugins: [gyral()],
   configFile: false,
   root: directory,
   publicDir: false,

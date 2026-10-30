@@ -16,6 +16,29 @@ Keep acceptance evidence in the owning bead. Add a regression for a new failure 
 promote recurring review feedback into a guard or owning document. Do not label an unverified
 area complete merely because adjacent tests pass.
 
+## Gyral 0.3.8 and Gyral as a peer (2026-10-29)
+
+The catalog pins the five Gyral packages at 0.3.8. The five libraries that import Gyral
+(arcade, cards UI, catalog, launcher and UI) list it as a caret peer (`^0.3.8`, the `peers`
+catalog) and as a 0.3.8 dev dependency, so the app installs one core shared by every library
+(D-07). `check:release` rejects a packed manifest with Gyral as a dependency, or with a Gyral
+peer that doesn't admit the tested version, and the installed consumer must hold exactly one
+copy of each Gyral peer. The libraries use only Gyral's public entry points.
+
+`npx @gyral/codemod 0.3.8` moved the Vite configs and the release build to `gyral()` and the
+solitaire drivers to a list. By hand: the solitaire, arcade, catalog-client and ad-slot drivers
+are lists built from their tokens; the card table, hand and solitaire parsers use `on()`; the
+arcade HUD feed uses `subscription` `equals` (and `createControlDrivers`, `select` and
+`equals`) instead of hand-written deduplication. ESLint's Gyral warnings went from 11 to 0.
+The Chromium project uses `optimize: 'auto'`.
+
+Views read only their state and props. With Gyral's development checks forced on (they are off
+for an npm core in Vitest until Gyral 0.3.9, gyral-3pv), the only warnings were two G0017
+false positives on `<jy-launcher>`: `keyed()` and a freshly built `.control` object compare
+by identity (gyral-nyy). The full `pnpm check` passes: 101 unit files with 1,277 tests and 15
+skips, 29 browser files with 183 tests, all package builds, and the installed consumer for all
+17 tarballs. A minor Changeset covers the five libraries: the peer changes what apps install.
+
 ## Gyral 0.3.7 (2026-10-28)
 
 The catalog pins the five Gyral packages the libraries use (core, http, router, ssr and

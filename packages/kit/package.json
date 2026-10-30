@@ -1,6 +1,6 @@
 {
   "name": "@joystyk/kit",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Pure, deterministic game building blocks: a seeded RNG, cards and decks, dice, grids, turn order and daily seeds.",
   "private": false,
   "type": "module",

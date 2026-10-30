@@ -7,11 +7,14 @@ Catalog models, server rendering and the browser application shell. Supply game 
 The first `0.1.0` release is being prepared; it has not been published. Once available:
 
 ```sh
-npm install @joystyk/catalog
+npm install @joystyk/catalog @gyral/core @gyral/http @gyral/router @gyral/ssr
 ```
 
 Node consumers require Node 24.15 or later. Browser entry points require a modern
-browser and should be loaded in the browser. Tested with Gyral 0.3.7.
+browser and should be loaded in the browser. `@gyral/core`, `@gyral/http`, `@gyral/router`
+and `@gyral/ssr` are peer dependencies (`^0.3.8`): install them beside this package, all at one
+Gyral version, so the app and every Gyral library share one core. Built and tested with Gyral
+0.3.8.
 
 | Import | Format |
 | --- | --- |

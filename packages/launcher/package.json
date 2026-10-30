@@ -1,6 +1,6 @@
 {
   "name": "@joystyk/launcher",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "The frame around a game: mode picker, local sessions, mounting, the platform overlay, the hand-off and results screens.",
   "private": false,
   "type": "module",
@@ -22,7 +22,6 @@
     "prepack": "node ../../scripts/build-package.ts"
   },
   "dependencies": {
-    "@gyral/core": "catalog:",
     "@joystyk/contracts": "workspace:*",
     "@joystyk/daily": "workspace:*",
     "@joystyk/identity": "workspace:*",
@@ -31,7 +30,11 @@
     "@joystyk/storage": "workspace:*",
     "@joystyk/ui": "workspace:*"
   },
+  "peerDependencies": {
+    "@gyral/core": "catalog:peers"
+  },
   "devDependencies": {
+    "@gyral/core": "catalog:",
     "@gyral/testing": "catalog:",
     "@joystyk/rooms": "workspace:*",
     "parse5": "catalog:",

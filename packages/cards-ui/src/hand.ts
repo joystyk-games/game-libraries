@@ -15,7 +15,7 @@ import type { ChildValue } from '@gyral/core';
 // fanned and overlap; each keeps at least a 44 px strip, and the fan wraps onto a second row
 // on narrow screens rather than shrink below it. Focus follows the hand when a played card
 // leaves it.
-import { define, each, focus, html, intentsOf, outputs, prop, type Command } from '@gyral/core';
+import { define, each, focus, html, intentsOf, on, outputs, prop, type Command } from '@gyral/core';
 import { cardName, type Rank, type Suit } from '@joystyk/kit/cards';
 import { cardFace, suitDefs } from './faces.ts';
 import { tileName, type TileFace } from '@joystyk/kit/tiles';
@@ -191,7 +191,7 @@ export const handStep = (before: HandState, layout: HandLayout, m: HandMsg): Han
 };
 
 /** Keys the hand handles; their default actions (scrolling, a button's click) are suppressed. */
-const HAND_KEYS = new Set(['ArrowLeft', 'ArrowRight', 'Home', 'End', 'Enter', ' ']);
+const HAND_KEYS = ['ArrowLeft', 'ArrowRight', 'Home', 'End', 'Enter', ' '];
 
 const emit = outputs<HandOut>();
 const i = intentsOf<typeof CardHand>();
@@ -238,20 +238,10 @@ export const CardHand = define<
   },
   init: (p) => initialHand(p.layout),
   intent: {
-    Key: ({ key, event }) => {
-      if (
-        key === undefined ||
-        !(event instanceof KeyboardEvent) ||
-        event.altKey ||
-        event.ctrlKey ||
-        event.metaKey ||
-        event.shiftKey
-      )
-        return undefined;
-      if (!HAND_KEYS.has(key)) return undefined;
+    Key: on('keydown', { keys: HAND_KEYS, modifiers: 'none' }, ({ event }) => {
       event.preventDefault();
-      return { _tag: 'Key', key };
-    },
+      return { _tag: 'Key', key: event.key };
+    }),
     Press: ({ event }) => {
       const id =
         event.target instanceof Element ? event.target.closest('[data-card]')?.getAttribute('data-card') : null;
@@ -262,10 +252,9 @@ export const CardHand = define<
         event.target instanceof Element ? event.target.closest('[data-card]')?.getAttribute('data-card') : null;
       return typeof id === 'string' ? { _tag: 'Enter', id } : undefined;
     },
-    Leave: ({ event, target }) => {
-      const next = event instanceof FocusEvent ? event.relatedTarget : null;
-      return next instanceof Node && target instanceof Node && target.contains(next) ? undefined : { _tag: 'Leave' };
-    },
+    Leave: on('focusout', ({ event: { relatedTarget: next }, target }) =>
+      next instanceof Node && target.contains(next) ? undefined : { _tag: 'Leave' },
+    ),
   },
   update: {
     Key: (s, m, { props: p }) => run(s, p.layout, m),

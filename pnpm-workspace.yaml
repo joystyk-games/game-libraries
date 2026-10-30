@@ -5,11 +5,11 @@ catalog:
   publint: 0.3.25
   "@arethetypeswrong/cli": 0.18.5
   "@changesets/cli": 3.0.3
-  "@gyral/core": 0.3.7
-  "@gyral/http": 0.3.7
-  "@gyral/router": 0.3.7
-  "@gyral/ssr": 0.3.7
-  "@gyral/testing": 0.3.7
+  "@gyral/core": 0.3.8
+  "@gyral/http": 0.3.8
+  "@gyral/router": 0.3.8
+  "@gyral/ssr": 0.3.8
+  "@gyral/testing": 0.3.8
   axe-core: 4.13.0
   "@types/node": 24.10.1
   "@types/three": 0.186.0
@@ -32,5 +32,15 @@ catalog:
   three: 0.186.1
   ws: 8.22.0
   zod: 4.6.5
+# The Gyral packages the published libraries import, as peers (`catalog:peers`): the app's own
+# copy of each is shared, never a second core (Gyral's component-libraries guide). The caret
+# floor is the oldest Gyral the libraries are built and tested with; raise it when they need a
+# newer API. The default catalog above pins that version for the libraries' own builds and tests.
+catalogs:
+  peers:
+    "@gyral/core": ^0.3.8
+    "@gyral/http": ^0.3.8
+    "@gyral/router": ^0.3.8
+    "@gyral/ssr": ^0.3.8
 engineStrict: true
 saveExact: true

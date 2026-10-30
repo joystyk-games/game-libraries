@@ -1,6 +1,6 @@
 {
   "name": "@joystyk/arcade",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Shared real-time input, pause, paces and ghost races.",
   "private": false,
   "type": "module",
@@ -19,10 +19,13 @@
     "@joystyk/contracts": "workspace:*",
     "@joystyk/kit": "workspace:*",
     "@joystyk/session": "workspace:*",
-    "zod": "catalog:",
-    "@gyral/core": "catalog:"
+    "zod": "catalog:"
+  },
+  "peerDependencies": {
+    "@gyral/core": "catalog:peers"
   },
   "devDependencies": {
+    "@gyral/core": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:"

@@ -88,6 +88,8 @@ The repository identity, package metadata and workflow must agree. Keep publishe
 1. Add a Changeset for package API or behavior changes with `pnpm changeset`. Prepare the
    shared version and changelogs with `pnpm version:packages`; review the dependency ranges
    and frozen lockfile in the same pull request. The workflow refuses pending Changesets.
+   Gyral stays a caret peer (D-07): changing the `peers` catalog's floor, or Gyral's minor,
+   changes what apps must install, so it takes a minor release while the libraries are 0.x.
 2. Run `pnpm check`, commit the reviewed source and merge to `main`.
 3. GitHub → Actions → **release** → Run workflow on `main`. Approve the `npm` environment
    deployment when requested. The hosted workflow checks the source and validates all 17

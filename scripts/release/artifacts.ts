@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import * as z from 'zod/mini';
 import { isTestFile, manifestSchema, packages, ROOT, type Manifest } from './packages.ts';
+import { gyralPeerProblems } from './peers.ts';
 import { run } from './run.ts';
 
 export type Artifact = { readonly manifest: Manifest; readonly tarball: string; readonly sha256: string };
@@ -126,6 +127,8 @@ export const packArtifacts = async (release = false): Promise<Artifacts> => {
       );
       if (specs.some((spec) => /^(?:workspace|catalog):/.test(spec)))
         throw new Error(`${manifest.name}: unresolved dependency protocol`);
+      const peerProblems = gyralPeerProblems(packed);
+      if (peerProblems.length) throw new Error(`${manifest.name}: ${peerProblems.join('; ')}`);
       for (const target of Object.values(packed.exports ?? {}).flatMap((value) =>
         typeof value === 'string' ? [value] : [value.types, value.default],
       )) {
