@@ -18,7 +18,7 @@ npm install @joystyk/testing
 
 Node consumers require Node 24.15 or later. Browser entry points require a modern
 browser and should be loaded in the browser. The root entry integrates with Vitest
-4.1.11; use it inside a Vitest test. Fixtures can also be imported separately.
+4.1.12; use it inside a Vitest test. Fixtures can also be imported separately.
 
 | Import | Format |
 | --- | --- |
