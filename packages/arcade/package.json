@@ -1,6 +1,6 @@
 {
   "name": "@joystyk/arcade",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Shared real-time input, pause, paces and ghost races.",
   "private": false,
   "type": "module",

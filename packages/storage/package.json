@@ -1,6 +1,6 @@
 {
   "name": "@joystyk/storage",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Versioned, validated player data: saves, stats, streaks and preferences, over IndexedDB or memory.",
   "private": false,
   "type": "module",
