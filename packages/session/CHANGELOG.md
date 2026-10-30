@@ -1,5 +1,14 @@
 # @joystyk/session
 
+## 0.3.1
+
+### Patch Changes
+
+- Updated dependencies [5535358]
+  - @joystyk/rooms@0.3.1
+  - @joystyk/contracts@0.3.1
+  - @joystyk/kit@0.3.1
+
 ## 0.3.0
 
 ### Patch Changes

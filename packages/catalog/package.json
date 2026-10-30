@@ -1,6 +1,6 @@
 {
   "name": "@joystyk/catalog",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "The Joystyk catalog: manifest registry, slot registry, routes and the server-rendered index, category and game pages.",
   "private": false,
   "type": "module",

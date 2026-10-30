@@ -1,6 +1,6 @@
 {
   "name": "@joystyk/rooms",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "The room server: a pure room core, the versioned wire protocol and a Node adapter (WebSockets, SQLite, timers, worker jobs).",
   "private": false,
   "type": "module",

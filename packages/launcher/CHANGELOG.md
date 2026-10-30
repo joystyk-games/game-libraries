@@ -1,5 +1,23 @@
 # @joystyk/launcher
 
+## 0.3.1
+
+### Patch Changes
+
+- e1f110e: Show a local game's results only after its save slot is cleared. The stage used to show the
+  outcome first and delete the finished game's saves afterwards, in two storage transactions. A
+  reload in between abandoned the deletes, and the next page offered the finished game for
+  resuming at its last position before the end, so a player could carry on a game they had
+  already lost.
+- Updated dependencies [5535358]
+  - @joystyk/daily@0.3.1
+  - @joystyk/identity@0.3.1
+  - @joystyk/storage@0.3.1
+  - @joystyk/ui@0.3.1
+  - @joystyk/session@0.3.1
+  - @joystyk/contracts@0.3.1
+  - @joystyk/kit@0.3.1
+
 ## 0.3.0
 
 ### Minor Changes
