@@ -1,5 +1,8 @@
 import { defineDriver, subscription, type DriverOverrides } from '@gyral/core';
-/** Shared driver adapter; callers keep their public driver names and typed HUD projection. */
+/**
+ * Shared driver adapter; callers keep their public driver names and typed HUD projection. The
+ * HUD feed projects each snapshot and delivers it only when `same` says it changed.
+ */
 export function createControlDrivers<Snapshot, Hud, Action>(o: {
   hud: string;
   action: string;
@@ -9,15 +12,7 @@ export function createControlDrivers<Snapshot, Hud, Action>(o: {
   dispatch: (action: Action) => void;
 }): DriverOverrides {
   return {
-    [o.hud]: subscription<Hud>(o.hud, (emit) => {
-      let last: Hud | undefined;
-      return o.subscribe((snapshot) => {
-        const next = o.project(snapshot);
-        if (last !== undefined && o.same(last, next)) return;
-        last = next;
-        emit(next);
-      });
-    }),
+    [o.hud]: subscription(o.hud, o.subscribe, { select: o.project, equals: o.same }),
     [o.action]: defineDriver<Action, void>({ name: o.action, run: o.dispatch }),
   };
 }

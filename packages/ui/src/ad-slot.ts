@@ -81,7 +81,7 @@ export const adEntitlement = watchEntitlement(alwaysShowAds);
 
 /** Gives every `<ad-slot>` below `element` its entitlement from `source`. */
 export const provideAdEntitlement = (element: Element, source: AdEntitlementSource): (() => void) =>
-  provideDrivers(element, { 'ad-entitlement': watchEntitlement(source) });
+  provideDrivers(element, [watchEntitlement(source)]);
 
 /** `navigator.onLine` now and on every `online` / `offline` event. */
 export const connectivity = subscription<boolean>('connectivity', (emit) => {

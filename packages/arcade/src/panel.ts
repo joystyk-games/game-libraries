@@ -1,4 +1,4 @@
-import { command, define, defineDriver, html, subscription, type DriverOverrides } from '@gyral/core';
+import { command, define, defineDriver, html, subscription, type DriverList } from '@gyral/core';
 import type { Pace } from './records.ts';
 export type Hud = {
   title: string;
@@ -97,10 +97,10 @@ export const ArcadePanel = define<
  <details><summary>Controls and graphics</summary><label>Graphics <select data-intent=${i.Graphics} value=${h.graphics}><option value="auto">Auto</option><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select></label>
  <label><input type="checkbox" ?checked=${h.pad} data-intent=${i.Pad}> Show control pad</label><label ?hidden=${!h.alignment}><input type="checkbox" ?checked=${h.tone} data-intent=${i.Tone}> Alignment tone</label><label ?hidden=${!h.shooter}><input type="checkbox" ?checked=${h.autoFire} data-intent=${i.Fire}> Automatic fire</label></details>`,
 });
+/** Every HUD field is a primitive, so one comparison per field tells two HUDs apart. */
+const sameHud = (a: Hud, b: Hud): boolean => (Object.keys(a) as (keyof Hud)[]).every((key) => a[key] === b[key]);
+/** The panel's drivers. The HUD feed delivers a HUD only when one of its fields changed. */
 export const panelDrivers = (
   listen: (emit: (hud: Hud) => void) => () => void,
   perform: (action: PanelAction) => void,
-): DriverOverrides => ({
-  'arcade-hud': subscription<Hud>('arcade-hud', listen),
-  'arcade-action': defineDriver<PanelAction, void>({ name: 'arcade-action', run: perform }),
-});
+): DriverList => [subscription(feed, listen, { equals: sameHud }), action.provide(perform)];

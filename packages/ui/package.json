@@ -24,10 +24,13 @@
     "prepack": "node ../../scripts/build-package.ts"
   },
   "dependencies": {
-    "@gyral/core": "catalog:",
     "zod": "catalog:"
   },
+  "peerDependencies": {
+    "@gyral/core": "catalog:peers"
+  },
   "devDependencies": {
+    "@gyral/core": "catalog:",
     "@gyral/testing": "catalog:",
     "axe-core": "catalog:",
     "parse5": "catalog:",

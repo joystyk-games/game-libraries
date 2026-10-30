@@ -11,11 +11,13 @@ game-contract.md (Joystyk host reference) and never imports a game.
 The first `0.1.0` release is being prepared; it has not been published. Once available:
 
 ```sh
-npm install @joystyk/launcher
+npm install @joystyk/launcher @gyral/core
 ```
 
 Node consumers require Node 24.15 or later. Browser entry points require a modern
-browser and should be loaded in the browser. Tested with Gyral 0.3.7.
+browser and should be loaded in the browser. `@gyral/core` is a peer dependency (`^0.3.8`):
+install it beside this package, so the app and every Gyral library share one core. Built
+and tested with Gyral 0.3.8.
 
 | Import | Format |
 | --- | --- |

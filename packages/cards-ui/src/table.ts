@@ -11,7 +11,19 @@ import type { ChildValue } from '@gyral/core';
 // `::part(pile-<kind>)` for the pile (custom properties set there reach its cards, so
 // `--card-w` and `--card-h` make a pile's cards smaller) and `::part(slot-<kind>)` for the
 // outline an empty pile shows.
-import { defineHook, define, each, focus, html, intentsOf, nothing, outputs, prop, type Command } from '@gyral/core';
+import {
+  defineHook,
+  define,
+  each,
+  focus,
+  html,
+  intentsOf,
+  nothing,
+  on,
+  outputs,
+  prop,
+  type Command,
+} from '@gyral/core';
 import {
   DEFAULT_OPTIONS,
   EMPTY_LAYOUT,
@@ -249,26 +261,26 @@ export const CardTable = define<TableState, TableMsg, TableProps, TableOut>()('j
   init: (p) => ({ ctl: initialCtl(p.layout) }),
   renderOnFrame: ['Move'],
   intent: {
-    Key: ({ key, event }, { props: { layout, options } }) => {
-      if (key === undefined || !(event instanceof KeyboardEvent)) return undefined;
+    Key: on('keydown', ({ key, event, modifiers: { ctrl, alt, meta, shift } }, { props: { layout, options } }) => {
+      if (key === undefined) return undefined;
       const onPile = event.target instanceof Element && event.target.hasAttribute('data-pile');
       if (!onPile) return undefined;
-      const plain = !event.ctrlKey && !event.metaKey && !event.altKey;
+      const plain = !ctrl && !meta && !alt;
       const lower = key.toLowerCase();
       const single =
         plain &&
-        !event.shiftKey &&
+        !shift &&
         options.singleKeys &&
         ((lower >= '0' && lower <= '9' && lower.length === 1) || layout.keys.includes(lower));
       if ((plain && TABLE_KEYS.has(key)) || single || (plain && key === 'Escape')) event.preventDefault();
-      return { _tag: 'Key', key, ctrl: event.ctrlKey, alt: event.altKey, meta: event.metaKey, shift: event.shiftKey };
-    },
+      return { _tag: 'Key', key, ctrl, alt, meta, shift };
+    }),
     Focus: ({ event }) => {
       const pile = pileAt(event.target).pile;
       return pile === null ? undefined : { _tag: 'Focus', pile };
     },
-    Down: ({ event, target }) => {
-      if (!(event instanceof PointerEvent) || !event.isPrimary || event.button !== 0) return undefined;
+    Down: on('pointerdown', ({ event, target }) => {
+      if (!event.isPrimary || event.button !== 0) return undefined;
       const at = pileAt(event.target);
       // Capture on the event wrapper so a drag that leaves the table still ends here.
       if (at.pile !== null && target instanceof Element && target.isConnected) {
@@ -279,20 +291,20 @@ export const CardTable = define<TableState, TableMsg, TableProps, TableOut>()('j
         }
       }
       return { _tag: 'Down', pile: at.pile, depth: at.depth, x: event.clientX, y: event.clientY };
-    },
-    Move: ({ event, target }) => {
-      if (!(event instanceof PointerEvent) || !event.isPrimary || event.buttons === 0) return undefined;
+    }),
+    Move: on('pointermove', ({ event, target }) => {
+      if (!event.isPrimary || event.buttons === 0) return undefined;
       return {
         _tag: 'Move',
         x: event.clientX,
         y: event.clientY,
         over: pileUnder(target, event.clientX, event.clientY),
       };
-    },
-    Up: ({ event, target }) => {
-      if (!(event instanceof PointerEvent) || !event.isPrimary) return undefined;
+    }),
+    Up: on('pointerup', ({ event, target }) => {
+      if (!event.isPrimary) return undefined;
       return { _tag: 'Up', over: pileUnder(target, event.clientX, event.clientY) };
-    },
+    }),
     Cancel: () => ({ _tag: 'Cancel' }),
   },
   update: {

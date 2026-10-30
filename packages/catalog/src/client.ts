@@ -4,4 +4,4 @@ import './components/app.ts';
 import { provideDrivers } from '@gyral/core';
 import { makeRouter } from '@gyral/router';
 
-provideDrivers(document.documentElement, { router: makeRouter({ captureLinks: true }) });
+provideDrivers(document.documentElement, [makeRouter({ captureLinks: true })]);

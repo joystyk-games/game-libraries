@@ -1,5 +1,5 @@
 // Install only real tarballs into a fresh npm project outside this checkout.
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import * as z from 'zod/mini';
@@ -7,6 +7,22 @@ import { packArtifacts } from './release/artifacts.ts';
 import { artifactDirectory, saveArchive } from './release/archive.ts';
 import { ROOT } from './release/packages.ts';
 import { run } from './release/run.ts';
+
+/** Every package folder under `folder` (a node_modules), nested ones included, as [name, path]. */
+const installedPackages = (folder: string): (readonly [string, string])[] =>
+  readdirSync(folder, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'))
+    .flatMap((entry) =>
+      entry.name.startsWith('@')
+        ? readdirSync(join(folder, entry.name), { withFileTypes: true })
+            .filter((inner) => inner.isDirectory())
+            .map((inner) => [`${entry.name}/${inner.name}`, join(folder, entry.name, inner.name)] as const)
+        : [[entry.name, join(folder, entry.name)] as const],
+    )
+    .flatMap((found) => [
+      found,
+      ...(existsSync(join(found[1], 'node_modules')) ? installedPackages(join(found[1], 'node_modules')) : []),
+    ]);
 
 const artifacts = await packArtifacts(process.argv.includes('--release'));
 const directory = mkdtempSync(join(tmpdir(), 'joystyk-consumer-'));
@@ -16,12 +32,23 @@ try {
       .object({ version: z.string() })
       .parse(JSON.parse(readFileSync(join(ROOT, 'node_modules', name, 'package.json'), 'utf8'))).version;
   const dependencies = Object.fromEntries(artifacts.items.map((item) => [item.manifest.name, `file:${item.tarball}`]));
-  const devDependencies = Object.fromEntries(
-    ['typescript', 'vite', 'vitest', 'playwright', '@types/node', '@gyral/core', '@gyral/ssr'].map((name) => [
-      name,
-      tool(name),
-    ]),
+  // The libraries' Gyral peers, as an application installs them: one release, the one tested.
+  const gyral = Object.fromEntries(
+    artifacts.items.flatMap(({ manifest }) =>
+      Object.keys(manifest.peerDependencies ?? {})
+        .filter((name) => name.startsWith('@gyral/'))
+        .map((name) => [name, manifest.devDependencies?.[name] ?? tool(name)]),
+    ),
   );
+  const devDependencies = {
+    ...Object.fromEntries(
+      ['typescript', 'vite', 'vitest', 'playwright', '@types/node', '@gyral/core', '@gyral/ssr'].map((name) => [
+        name,
+        tool(name),
+      ]),
+    ),
+    ...gyral,
+  };
   writeFileSync(
     join(directory, 'package.json'),
     JSON.stringify({
@@ -33,6 +60,14 @@ try {
     }),
   );
   await run('npm', ['install', '--ignore-scripts', '--no-audit', '--no-fund'], directory);
+  // A peer is never installed a second time under a library, so the application's core is the only one.
+  const installed = installedPackages(join(directory, 'node_modules'));
+  for (const name of Object.keys(gyral)) {
+    const copies = installed.filter(([installedName]) => installedName === name).map(([, path]) => path);
+    if (copies.length !== 1)
+      throw new Error(`Installed consumer has ${String(copies.length)} copies of ${name}: ${copies.join(', ')}`);
+  }
+  console.log(`One copy each of ${Object.keys(gyral).sort().join(', ')} in the installed consumer`);
   const entries = artifacts.items.flatMap(({ manifest }) =>
     Object.keys(manifest.exports ?? {}).map((key) => manifest.name + (key === '.' ? '' : key.slice(1))),
   );

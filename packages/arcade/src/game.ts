@@ -69,7 +69,6 @@ export function mountArcade<View extends ArcadeView>(
     lastTick = -1,
     lastPhase = 'ready',
     lastPace: Pace = session.get().view.pace,
-    lastHud = '',
     padShown = o.gameId === 'tower-stacker' || matchMedia('(pointer:coarse)').matches,
     tone = false,
     autoFire = o.gesture === 'drag' && matchMedia('(pointer:coarse)').matches,
@@ -115,11 +114,7 @@ export function mountArcade<View extends ArcadeView>(
       alignment: o.alignment === true,
       shooter: o.gesture === 'drag',
     };
-    const key = JSON.stringify(hud);
-    if (key !== lastHud) {
-      lastHud = key;
-      for (const listener of listeners) listener(hud);
-    }
+    for (const listener of listeners) listener(hud);
     pad.hidden = !padShown && !(o.gesture === 'drag' && !autoFire);
     if (drawing !== null) {
       const g = ghost?.advance(snapshot.tick) as View | undefined;
@@ -214,7 +209,6 @@ export function mountArcade<View extends ArcadeView>(
   };
   controls.drivers = panelDrivers((emit) => {
     listeners.add(emit);
-    lastHud = '';
     publish();
     return () => listeners.delete(emit);
   }, perform);

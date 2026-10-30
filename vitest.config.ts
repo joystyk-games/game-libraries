@@ -1,4 +1,4 @@
-import { gyralVitePreset } from '@gyral/core/vite';
+import { gyral } from '@gyral/core/vite';
 import { renderOnServer } from '@gyral/testing/vitest';
 import { playwright } from '@vitest/browser-playwright';
 import { availableParallelism } from 'node:os';
@@ -17,9 +17,10 @@ export default defineConfig({
         },
       },
       {
-        // The preset pre-bundles every installed Gyral browser entry point, so Vite doesn't
-        // discover one mid-run and reload the test page; list only other dependencies in `optimize`.
-        ...gyralVitePreset(),
+        // gyral() pre-bundles Gyral's browser entry points, and `optimize: 'auto'` points Vite's
+        // startup scan at the tests, so Vite finds everything they import up front and doesn't
+        // reload the test page mid-run. Add a dependency to `optimize` only if one still slips by.
+        plugins: [gyral({ optimize: 'auto' })],
         test: {
           name: 'browser',
           include: ['packages/*/src/**/*.browser.test.ts'],

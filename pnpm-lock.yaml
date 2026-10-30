@@ -13,20 +13,20 @@ catalogs:
       specifier: 3.0.3
       version: 3.0.3
     '@gyral/core':
-      specifier: 0.3.7
-      version: 0.3.7
+      specifier: 0.3.8
+      version: 0.3.8
     '@gyral/http':
-      specifier: 0.3.7
-      version: 0.3.7
+      specifier: 0.3.8
+      version: 0.3.8
     '@gyral/router':
-      specifier: 0.3.7
-      version: 0.3.7
+      specifier: 0.3.8
+      version: 0.3.8
     '@gyral/ssr':
-      specifier: 0.3.7
-      version: 0.3.7
+      specifier: 0.3.8
+      version: 0.3.8
     '@gyral/testing':
-      specifier: 0.3.7
-      version: 0.3.7
+      specifier: 0.3.8
+      version: 0.3.8
     '@types/node':
       specifier: 24.10.1
       version: 24.10.1
@@ -112,13 +112,13 @@ importers:
         version: 3.0.3
       '@gyral/core':
         specifier: 'catalog:'
-        version: 0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
+        version: 0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
       '@gyral/ssr':
         specifier: 'catalog:'
-        version: 0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
+        version: 0.3.8(@gyral/core@0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1)))(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
       '@gyral/testing':
         specifier: 'catalog:'
-        version: 0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))(vitest@4.1.11)
+        version: 0.3.8(@gyral/core@0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1)))(vitest@4.1.11)
       '@types/node':
         specifier: 'catalog:'
         version: 24.10.1
@@ -161,9 +161,6 @@ importers:
 
   packages/arcade:
     dependencies:
-      '@gyral/core':
-        specifier: 'catalog:'
-        version: 0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
       '@joystyk/contracts':
         specifier: workspace:*
         version: link:../contracts
@@ -177,6 +174,9 @@ importers:
         specifier: 'catalog:'
         version: 4.6.5
     devDependencies:
+      '@gyral/core':
+        specifier: 'catalog:'
+        version: 0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -189,9 +189,6 @@ importers:
 
   packages/cards-ui:
     dependencies:
-      '@gyral/core':
-        specifier: 'catalog:'
-        version: 0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
       '@joystyk/contracts':
         specifier: workspace:*
         version: link:../contracts
@@ -199,9 +196,12 @@ importers:
         specifier: workspace:*
         version: link:../kit
     devDependencies:
+      '@gyral/core':
+        specifier: 'catalog:'
+        version: 0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
       '@gyral/testing':
         specifier: 'catalog:'
-        version: 0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))(vitest@4.1.11)
+        version: 0.3.8(@gyral/core@0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1)))(vitest@4.1.11)
       '@joystyk/ui':
         specifier: workspace:*
         version: link:../ui
@@ -217,18 +217,6 @@ importers:
 
   packages/catalog:
     dependencies:
-      '@gyral/core':
-        specifier: 'catalog:'
-        version: 0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
-      '@gyral/http':
-        specifier: 'catalog:'
-        version: 0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
-      '@gyral/router':
-        specifier: 'catalog:'
-        version: 0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
-      '@gyral/ssr':
-        specifier: 'catalog:'
-        version: 0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
       '@joystyk/contracts':
         specifier: workspace:*
         version: link:../contracts
@@ -242,9 +230,21 @@ importers:
         specifier: 'catalog:'
         version: 4.6.5
     devDependencies:
+      '@gyral/core':
+        specifier: 'catalog:'
+        version: 0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
+      '@gyral/http':
+        specifier: 'catalog:'
+        version: 0.3.8(@gyral/core@0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1)))
+      '@gyral/router':
+        specifier: 'catalog:'
+        version: 0.3.8(@gyral/core@0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1)))
+      '@gyral/ssr':
+        specifier: 'catalog:'
+        version: 0.3.8(@gyral/core@0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1)))(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
       '@gyral/testing':
         specifier: 'catalog:'
-        version: 0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))(vitest@4.1.11)
+        version: 0.3.8(@gyral/core@0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1)))(vitest@4.1.11)
       parse5:
         specifier: 'catalog:'
         version: 8.0.1
@@ -360,9 +360,6 @@ importers:
 
   packages/launcher:
     dependencies:
-      '@gyral/core':
-        specifier: 'catalog:'
-        version: 0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
       '@joystyk/contracts':
         specifier: workspace:*
         version: link:../contracts
@@ -385,9 +382,12 @@ importers:
         specifier: workspace:*
         version: link:../ui
     devDependencies:
+      '@gyral/core':
+        specifier: 'catalog:'
+        version: 0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
       '@gyral/testing':
         specifier: 'catalog:'
-        version: 0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))(vitest@4.1.11)
+        version: 0.3.8(@gyral/core@0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1)))(vitest@4.1.11)
       '@joystyk/rooms':
         specifier: workspace:*
         version: link:../rooms
@@ -590,16 +590,16 @@ importers:
 
   packages/ui:
     dependencies:
-      '@gyral/core':
-        specifier: 'catalog:'
-        version: 0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
       zod:
         specifier: 'catalog:'
         version: 4.6.5
     devDependencies:
+      '@gyral/core':
+        specifier: 'catalog:'
+        version: 0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
       '@gyral/testing':
         specifier: 'catalog:'
-        version: 0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))(vitest@4.1.11)
+        version: 0.3.8(@gyral/core@0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1)))(vitest@4.1.11)
       axe-core:
         specifier: 'catalog:'
         version: 4.13.0
@@ -748,8 +748,8 @@ packages:
     resolution: {integrity: sha512-IkO+/KEUvwbVpiURZg+P7zF74z5Jxe0UgJxVni+RtoHQ6IZieXaO02kmadomap/q+l6bc/jdPGGqTjhuZnuz1Q==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
 
-  '@gyral/core@0.3.7':
-    resolution: {integrity: sha512-Hj6SokLKxrw7JxCRrzvk2mw3YIeGekSbiYq8SMJojTYCE93ZHlopuXUaT4336GZF7LM2T8UMiQtIWV2Y1SHtgA==}
+  '@gyral/core@0.3.8':
+    resolution: {integrity: sha512-ropgXPkujMoeCaqnpU1Zcf6LstLwAkBY0w/w5dM5WMvOCjwQ+vHDLB5/7QY/Mje5uSbz9vQolL/ry7HkN8/4Lw==}
     hasBin: true
     peerDependencies:
       eslint: ^9.0.0 || ^10.0.0
@@ -763,23 +763,29 @@ packages:
       vite:
         optional: true
 
-  '@gyral/http@0.3.7':
-    resolution: {integrity: sha512-3NrrFJiIje6cW9olWcJoOPAZbdYwr9rfwpznvfST95FF3jzh+EBp7WKrx9EBY+Q1eJJRamPmSwOmyfjxTcidOA==}
-
-  '@gyral/router@0.3.7':
-    resolution: {integrity: sha512-4+zzZ2C+oOCA/3/h25vcTg9ZPYjquFgBoEi/BmwsFnUN3T8+p5nqcclNZ+61WmrsPRa45phVvcmrOfJigFEssQ==}
-
-  '@gyral/ssr@0.3.7':
-    resolution: {integrity: sha512-JDMsI12wP0eChDBHTdKF/y7V+Mx5bnd6WM3chScrbQyffsmSNfySybdrgjwqUkMzXXKfiLjgdTLPX16+zn5Buw==}
+  '@gyral/http@0.3.8':
+    resolution: {integrity: sha512-9DE8rsn1XLbUdf8RpFZ7NtUxfFoihiRWnlMyx/2UA4ciyOreVB0lAYXptNvBamXr84iwb54e64L+ft4CDbyUMw==}
     peerDependencies:
+      '@gyral/core': 0.3.8
+
+  '@gyral/router@0.3.8':
+    resolution: {integrity: sha512-Lfenagb8fefx67Ef9xep9oz53rPYLSzaVS3kI6PDYdItkH3IIjiu9RgkKOQZe6/dlAU3KUgQWl3OOD13ouNCUw==}
+    peerDependencies:
+      '@gyral/core': 0.3.8
+
+  '@gyral/ssr@0.3.8':
+    resolution: {integrity: sha512-bsyd4cEtWcoVbshyYp/agca7rU98XTmLmAX4dvflCO1r6/JwlBU7ugs2lzT4UzaiU1RuQGYNWoS6wrreEGpY+Q==}
+    peerDependencies:
+      '@gyral/core': 0.3.8
       vite: ^8.0.0
     peerDependenciesMeta:
       vite:
         optional: true
 
-  '@gyral/testing@0.3.7':
-    resolution: {integrity: sha512-toSIqxL/MXbo2z9VyLjc7tYuySKQemN2EiJUaVff3S+SPc4/ynE9WKIDPpUxXtjKFQZADTnjo+WOSNf0UAnVtA==}
+  '@gyral/testing@0.3.8':
+    resolution: {integrity: sha512-NJLgjcewj+sEAXACYOL7/XY9mtqqwOkB0PUiIflKiz2rd5piHyg9IUgQBe/Dk/tjL+S+NX6bHnLofsOVedtNUQ==}
     peerDependencies:
+      '@gyral/core': 0.3.8
       vitest: ^4.1.0 || ^5.0.0
     peerDependenciesMeta:
       vitest:
@@ -2172,7 +2178,7 @@ snapshots:
       '@eslint/core': 1.2.1
       levn: 0.4.1
 
-  '@gyral/core@0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))':
+  '@gyral/core@0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))':
     dependencies:
       '@standard-schema/spec': 1.1.0
     optionalDependencies:
@@ -2180,44 +2186,29 @@ snapshots:
       parse5: 8.0.1
       vite: 8.3.3(@types/node@24.10.1)(yaml@2.9.1)
 
-  '@gyral/http@0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))':
+  '@gyral/http@0.3.8(@gyral/core@0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1)))':
     dependencies:
-      '@gyral/core': 0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
+      '@gyral/core': 0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
       '@standard-schema/spec': 1.1.0
-    transitivePeerDependencies:
-      - eslint
-      - parse5
-      - vite
 
-  '@gyral/router@0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))':
+  '@gyral/router@0.3.8(@gyral/core@0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1)))':
     dependencies:
-      '@gyral/core': 0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
-    transitivePeerDependencies:
-      - eslint
-      - parse5
-      - vite
+      '@gyral/core': 0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
 
-  '@gyral/ssr@0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))':
+  '@gyral/ssr@0.3.8(@gyral/core@0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1)))(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))':
     dependencies:
-      '@gyral/core': 0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
+      '@gyral/core': 0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
       '@standard-schema/spec': 1.1.0
     optionalDependencies:
       vite: 8.3.3(@types/node@24.10.1)(yaml@2.9.1)
-    transitivePeerDependencies:
-      - eslint
-      - parse5
 
-  '@gyral/testing@0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))(vitest@4.1.11)':
+  '@gyral/testing@0.3.8(@gyral/core@0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1)))(vitest@4.1.11)':
     dependencies:
-      '@gyral/core': 0.3.7(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
+      '@gyral/core': 0.3.8(eslint@10.12.0)(parse5@8.0.1)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
       '@sinonjs/fake-timers': 15.4.0
       '@standard-schema/spec': 1.1.0
     optionalDependencies:
       vitest: 4.1.11(@types/node@24.10.1)(@vitest/browser-playwright@4.1.11)(vite@8.3.3(@types/node@24.10.1)(yaml@2.9.1))
-    transitivePeerDependencies:
-      - eslint
-      - parse5
-      - vite
 
   '@humanfs/core@0.19.2':
     dependencies:

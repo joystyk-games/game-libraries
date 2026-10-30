@@ -21,6 +21,9 @@ fixed-step runner remains the authority; these helpers send intentions and draw 
 - `createControlDrivers`, `resumeAfter`, `bindPagePause`, `swipeDirection` and the direction
   maps let existing games adopt the helpers without changing their public controls or rules.
 
+`@gyral/core` is a peer dependency (`^0.3.8`): the app installs it, so the HUD and the app share
+one core. Built and tested with Gyral 0.3.8.
+
 Dispose every returned binding when its game leaves the page. Games import this package from
 `ui/` or `render/`. The design and performance budgets are in
 host policy (Joystyk host reference).

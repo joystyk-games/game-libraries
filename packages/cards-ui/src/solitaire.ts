@@ -10,6 +10,7 @@ import {
   html,
   intentsOf,
   nothing,
+  on,
   subscription,
   type ChildValue,
   type Command,
@@ -311,8 +312,8 @@ export const SolitaireBoard = define<State, Msg>()('jy-solitaire-board', {
     Hint: () => ({ _tag: 'Action', action: { kind: 'command', command: { type: 'hint' } } }),
     New: () => ({ _tag: 'Dialog', dialog: 'confirm' }),
     Keys: () => ({ _tag: 'Dialog', dialog: 'keys' }),
-    Cancel: ({ key, event }) =>
-      event instanceof KeyboardEvent && key !== 'Escape' ? undefined : { _tag: 'Dialog', dialog: 'none' },
+    Cancel: () => ({ _tag: 'Dialog', dialog: 'none' }),
+    Escape: on('keydown', { keys: ['Escape'] }, () => ({ _tag: 'Dialog', dialog: 'none' })),
     Confirm: () => ({ _tag: 'Action', action: { kind: 'resign' } }),
     Color: ({ checked }) => ({ _tag: 'Color', on: checked === true }),
     Sound: ({ checked }) => ({ _tag: 'Sound', on: checked === true }),
@@ -326,21 +327,19 @@ export const SolitaireBoard = define<State, Msg>()('jy-solitaire-board', {
               values: Object.fromEntries(Array.from(formData.entries(), ([key, v]) => [key, String(v)])),
             },
           },
-    Key: ({ key, event }) => {
+    Key: on('keydown', { modifiers: { alt: false } }, ({ event, key, modifiers }) => {
       if (
-        !(event instanceof KeyboardEvent) ||
+        key === undefined ||
         event.defaultPrevented ||
         event.repeat ||
-        key === undefined ||
-        event.altKey ||
         (event.target instanceof Element && event.target.closest('input,select,textarea,dialog') !== null)
       )
         return undefined;
-      const ctrl = event.ctrlKey || event.metaKey;
+      const ctrl = modifiers.ctrl || modifiers.meta;
       if (ctrl && key.toLowerCase() !== 'z') return undefined;
       if (['u', 'd', 'h', 'n', 't', 'w', '?'].includes(key.toLowerCase()) || ctrl) event.preventDefault();
       return { _tag: 'Key', key, ctrl };
-    },
+    }),
   },
   update: {
     Snapshot: (s, { snapshot: next }) => {
@@ -447,7 +446,7 @@ export const SolitaireBoard = define<State, Msg>()('jy-solitaire-board', {
         ${d.history === undefined ? nothing : html`<details><summary>Removed cards</summary><ul>${d.history.map((card) => html`<li>${card}</li>`)}</ul></details>`}
         <details><summary>Records on this device</summary><dl>${d.round === undefined ? nothing : html`<div><dt>Rounds completed</dt><dd>${records.completed}</dd></div><div><dt>Best round</dt><dd>${records.bestRound ?? '–'}</dd></div><div><dt>Average round</dt><dd>${records.completed === 0 ? '–' : (records.totalStrokes / records.completed).toFixed(1)}</dd></div><div><dt>Best hole</dt><dd>${records.bestHole ?? '–'}</dd></div><div><dt>Rounds at or under par</dt><dd>${records.underPar}</dd></div>`}<div><dt>Played</dt><dd>${records.played}</dd></div><div><dt>Won</dt><dd>${records.won}</dd></div><div><dt>Best score</dt><dd>${records.bestScore ?? '–'}</dd></div><div><dt>Fewest moves in a win</dt><dd>${records.fewestMoves ?? '–'}</dd></div><div><dt>Best time</dt><dd>${records.bestMs === null ? '–' : timeText(records.bestMs)}</dd></div><div><dt>Best run</dt><dd>${records.bestRun}</dd></div><div><dt>Cleared</dt><dd>${records.cleared}</dd></div><div><dt>Wins without help</dt><dd>${records.cleanWins}</dd></div><div><dt>Win streak (best)</dt><dd>${records.streak} (${records.longestStreak})</dd></div></dl></details>
       </div>
-      ${s.dialog === 'none' ? nothing : html`<dialog ?modal=${true} class="panel" aria-label=${s.dialog === 'keys' ? 'Keyboard controls' : 'End this deal?'} data-intent-keydown=${i.Cancel} data-intent-close=${i.Cancel}><h3>${s.dialog === 'keys' ? 'Keyboard controls' : 'End this deal?'}</h3><p>${s.dialog === 'keys' ? `${d.keys} Single-key shortcuts ${s.options.singleKeys ? 'are on' : 'are off'}.` : 'This game ends now and counts as played. Play again offers a fresh deal.'}</p>${s.dialog === 'confirm' ? html`<button type="button" data-intent=${i.Confirm}>End and start again</button>` : nothing}<button type="button" data-intent=${i.Cancel}>${s.dialog === 'keys' ? 'Close' : 'Keep playing'}</button></dialog>`}
+      ${s.dialog === 'none' ? nothing : html`<dialog ?modal=${true} class="panel" aria-label=${s.dialog === 'keys' ? 'Keyboard controls' : 'End this deal?'} data-intent-keydown=${i.Escape} data-intent-close=${i.Cancel}><h3>${s.dialog === 'keys' ? 'Keyboard controls' : 'End this deal?'}</h3><p>${s.dialog === 'keys' ? `${d.keys} Single-key shortcuts ${s.options.singleKeys ? 'are on' : 'are off'}.` : 'This game ends now and counts as played. Play again offers a fresh deal.'}</p>${s.dialog === 'confirm' ? html`<button type="button" data-intent=${i.Confirm}>End and start again</button>` : nothing}<button type="button" data-intent=${i.Cancel}>${s.dialog === 'keys' ? 'Close' : 'Keep playing'}</button></dialog>`}
     </section>`;
   },
   styles: css`@layer components {
@@ -477,8 +476,8 @@ export const mountSolitaire = <V, E>(
   const board = new SolitaireBoard();
   let latest: V | null = null;
   let disposed = false;
-  board.drivers = {
-    'solitaire-session': subscription<Snapshot>('solitaire-session', (emit) =>
+  board.drivers = [
+    subscription(feed, (emit) =>
       session.subscribe((raw: unknown) => {
         const meta = decode(metaSchema, raw);
         if (meta === null || !record(raw)) return;
@@ -494,67 +493,49 @@ export const mountSolitaire = <V, E>(
         emit({ ...meta, data: adapter.describe(view, events, meta.revision) });
       }),
     ),
-    'solitaire-preferences': subscription<Preferences>('solitaire-preferences', (emit) => {
+    subscription(prefs, (emit) => {
       emit(platform.preferences.get());
       return platform.preferences.subscribe(emit);
     }),
-    'solitaire-timer': subscription<number>('solitaire-timer', (emit) => {
+    subscription(timer, (emit) => {
       const clock = session as AnyGameSession & { elapsedMs?: () => number };
       if (clock.elapsedMs === undefined) return () => {};
       const id = setInterval(() => emit(clock.elapsedMs!()), 250);
       return () => clearInterval(id);
     }),
-    'solitaire-speak': defineDriver<string, void>({
-      name: 'solitaire-speak',
-      run: (line) => platform.announce(line, 'polite'),
+    speaking.provide((line) => platform.announce(line, 'polite')),
+    reading.provide((key) => platform.storage.get(key)),
+    writing.provide((rows) => platform.storage.set('records', rows)),
+    sounding.provide((kind) => {
+      if (!disposed) platform.audio?.play(kind);
     }),
-    'solitaire-read': defineDriver<string, Json | null>({
-      name: 'solitaire-read',
-      run: (key) => platform.storage.get(key),
-    }),
-    'solitaire-write': defineDriver<Records, void>({
-      name: 'solitaire-write',
-      run: (rows) => platform.storage.set('records', rows),
-    }),
-    'solitaire-sound': defineDriver<'card' | 'clear', void>({
-      name: 'solitaire-sound',
-      run: (kind) => {
-        if (!disposed) platform.audio?.play(kind);
-      },
-    }),
-    'solitaire-color': defineDriver<boolean, void>({
-      name: 'solitaire-color',
-      run: (on) => platform.storage.set('fourColor', on),
-    }),
-    'solitaire-send': defineDriver<Action, string>({
-      name: 'solitaire-send',
-      run: async (a) => {
-        if (latest === null || disposed) return '';
-        if (a.kind === 'undo' || a.kind === 'resign') {
-          (session.dispatch as (input: unknown) => void)({ kind: a.kind });
-          return '';
-        }
-        if (a.kind === 'table' && a.out._tag === 'Announce') {
-          platform.announce(a.out.message, 'polite');
-          return '';
-        }
-        const c =
-          a.kind === 'command'
-            ? a.command
-            : a.kind === 'table'
-              ? adapter.table(latest, a.out)
-              : a.kind === 'key'
-                ? adapter.shortcut(latest, a.key)
-                : a.kind === 'setup'
-                  ? adapter.setup(latest, a.values)
-                  : null;
-        if (c === null) return a.kind === 'setup' ? 'Choose valid settings and a deal number from 1 to 1,000,000.' : '';
-        const command = a.kind === 'setup' && adapter.prepareSetup !== undefined ? await adapter.prepareSetup(c) : c;
-        if (!disposed) (session.dispatch as (input: unknown) => void)({ kind: 'command', command });
+    color.provide((fourColor) => platform.storage.set('fourColor', fourColor)),
+    sending.provide(async (a) => {
+      if (latest === null || disposed) return '';
+      if (a.kind === 'undo' || a.kind === 'resign') {
+        (session.dispatch as (input: unknown) => void)({ kind: a.kind });
         return '';
-      },
+      }
+      if (a.kind === 'table' && a.out._tag === 'Announce') {
+        platform.announce(a.out.message, 'polite');
+        return '';
+      }
+      const c =
+        a.kind === 'command'
+          ? a.command
+          : a.kind === 'table'
+            ? adapter.table(latest, a.out)
+            : a.kind === 'key'
+              ? adapter.shortcut(latest, a.key)
+              : a.kind === 'setup'
+                ? adapter.setup(latest, a.values)
+                : null;
+      if (c === null) return a.kind === 'setup' ? 'Choose valid settings and a deal number from 1 to 1,000,000.' : '';
+      const command = a.kind === 'setup' && adapter.prepareSetup !== undefined ? await adapter.prepareSetup(c) : c;
+      if (!disposed) (session.dispatch as (input: unknown) => void)({ kind: 'command', command });
+      return '';
     }),
-  };
+  ];
   slot.append(board);
   return {
     dispose: () => {

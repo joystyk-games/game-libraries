@@ -19,10 +19,13 @@
     "@joystyk/contracts": "workspace:*",
     "@joystyk/kit": "workspace:*",
     "@joystyk/session": "workspace:*",
-    "zod": "catalog:",
-    "@gyral/core": "catalog:"
+    "zod": "catalog:"
+  },
+  "peerDependencies": {
+    "@gyral/core": "catalog:peers"
   },
   "devDependencies": {
+    "@gyral/core": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:"

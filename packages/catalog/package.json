@@ -22,16 +22,22 @@
     "prepack": "node ../../scripts/build-package.ts"
   },
   "dependencies": {
-    "@gyral/core": "catalog:",
-    "@gyral/http": "catalog:",
-    "@gyral/router": "catalog:",
-    "@gyral/ssr": "catalog:",
     "@joystyk/contracts": "workspace:*",
     "@joystyk/launcher": "workspace:*",
     "@joystyk/ui": "workspace:*",
     "zod": "catalog:"
   },
+  "peerDependencies": {
+    "@gyral/core": "catalog:peers",
+    "@gyral/http": "catalog:peers",
+    "@gyral/router": "catalog:peers",
+    "@gyral/ssr": "catalog:peers"
+  },
   "devDependencies": {
+    "@gyral/core": "catalog:",
+    "@gyral/http": "catalog:",
+    "@gyral/router": "catalog:",
+    "@gyral/ssr": "catalog:",
     "@gyral/testing": "catalog:",
     "parse5": "catalog:",
     "typescript": "catalog:",

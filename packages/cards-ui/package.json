@@ -23,10 +23,13 @@
   },
   "dependencies": {
     "@joystyk/contracts": "workspace:*",
-    "@gyral/core": "catalog:",
     "@joystyk/kit": "workspace:*"
   },
+  "peerDependencies": {
+    "@gyral/core": "catalog:peers"
+  },
   "devDependencies": {
+    "@gyral/core": "catalog:",
     "@gyral/testing": "catalog:",
     "@joystyk/ui": "workspace:*",
     "typescript": "catalog:",
