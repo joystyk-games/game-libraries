@@ -16,6 +16,19 @@ Keep acceptance evidence in the owning bead. Add a regression for a new failure 
 promote recurring review feedback into a guard or owning document. Do not label an unverified
 area complete merely because adjacent tests pass.
 
+## Launcher results after the save is cleared (2026-10-30)
+
+At a local game's outcome the stage showed the result first and then deleted the finished
+game's saves, in two storage transactions. A reload in between abandoned the deletes, and the
+next page offered the finished game for resuming at its last position before the end. The
+site's Tile Match end-to-end test found this; with IndexedDB deletes slowed by 300 ms, Resume
+returned a lost game to play. The stage now holds its frames from the outcome until the save
+slot is cleared. A new Chromium test holds the deletes and checks that the results wait for
+them; it failed before the change and passes after it. The full `pnpm check` passes: 101
+unit files with 1,277 tests and 15 skips, 29 browser files with 184 tests, all package builds,
+and the installed consumer for all 17 tarballs. A patch Changeset covers `@joystyk/launcher`;
+versions stay at 0.3.0, and nothing is published.
+
 ## Vitest 4.1.12 (2026-10-30)
 
 The catalog pins `vitest` and `@vitest/browser-playwright` at 4.1.12 instead of 4.1.11.

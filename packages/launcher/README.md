@@ -105,9 +105,10 @@ Without JavaScript the setup form still renders, with a disabled Start button an
    `createFixedStepRunner` for a simulation, or the game's own `createSession`) and calls
    `mount(canvas, session, platform)`.
 6. **Results.** At the outcome the stage clears the save slot, records stats and, if the
-   engine has a `rematch` hook, the config for "Play again". The launcher shows the outcome,
-   play time, any assistance (`Outcome.undosUsed` and `assists`), Play again, Change mode,
-   Back to all games, and the `results` ad slot, over the final board (see below). The
+   engine has a `rematch` hook, the config for "Play again". Once the slot is cleared, so
+   that a reload never offers the finished game, the launcher shows the outcome, play time,
+   any assistance (`Outcome.undosUsed` and `assists`), Play again, Change mode, Back to all
+   games, and the `results` ad slot, over the final board (see below). The
    session is disposed only when the player picks Play again or Change mode, the game asks
    to exit, or the page goes away.
 

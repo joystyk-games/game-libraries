@@ -1157,12 +1157,23 @@ const run = (host: HTMLElement, canvas: HTMLElement, first: StageControl) => {
     const { entry, player } = game;
     const { manifest } = entry;
     platform = platformFor(svc, game);
+    // Frames wait here from the outcome on, until the finished game's saves are deleted. A
+    // result shown earlier could be followed by a reload that abandons the deletes, and the
+    // next page would offer the finished game for resuming, at its last position before the end.
+    let cleared: Promise<void> | null = null;
+    const show = (frame: FrameState): void => {
+      const text = json(frame);
+      if (text === lastFrame) return;
+      lastFrame = text;
+      emit({ _tag: 'Frame', frame });
+    };
     stops.push(
       session.subscribe((snapshot) => {
         const frame = frameOf(snapshot);
         if (frame.outcome !== null && !finished) {
           finished = true;
-          void slot?.finish();
+          // A failed delete still shows the result; the save is then dropped at the next load.
+          cleared = (slot?.finish() ?? Promise.resolve()).catch(() => {});
           void player.storage.stats.record(manifest.id, frame.outcome);
           if (control.mode === 'daily') {
             void recordDaily(svc, game, frame.outcome).catch((error: unknown) =>
@@ -1173,10 +1184,11 @@ const run = (host: HTMLElement, canvas: HTMLElement, first: StageControl) => {
             if (rematch !== null) emit({ _tag: 'Rematch', config: rematch });
           }
         }
-        const text = json(frame);
-        if (text === lastFrame) return;
-        lastFrame = text;
-        emit({ _tag: 'Frame', frame });
+        if (cleared === null) show(frame);
+        else
+          void cleared.then(() => {
+            if (!disposed) show(frame);
+          });
       }),
     );
     mountCanvas(game.module, session);

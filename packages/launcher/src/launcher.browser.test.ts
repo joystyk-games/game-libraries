@@ -326,6 +326,42 @@ it('mounts the game with its theme, plays to the results over the final board, a
   expect(root(el).querySelector('.resume')).toBeNull();
 });
 
+it('shows the results only once the finished game is no longer saved', async () => {
+  // Saves stop being deleted until the test lets them through, like a slow device's storage.
+  const memory = backend;
+  let hold = false;
+  let release = (): void => {};
+  const released = new Promise<void>((resolve) => (release = resolve));
+  backend = {
+    ...memory,
+    delete: async (store, key) => {
+      if (hold && store === 'saves') await released;
+      return memory.delete(store, key);
+    },
+  };
+  const savedTallies = async () => {
+    const keys = await memory.keys('saves', '');
+    return keys.ok ? keys.value.filter((key) => key.includes('/test-tally/')) : [];
+  };
+  const el = await mount();
+  await page.getByRole('button', { name: 'Start Tally' }).click();
+  await add(el, 2);
+  await add(el, 2);
+  await vi.waitFor(async () => expect(await savedTallies()).not.toEqual([]), WAIT);
+
+  hold = true;
+  await add(el, 1);
+  await vi.waitFor(() => expect(boardText(el, '.scores')).toMatch(/: 5$/), WAIT);
+  await settled();
+  // The game is over but its save could still be resumed after a reload, so no result yet.
+  expect(root(el).querySelector('dialog.results')).toBeNull();
+  expect(await savedTallies()).not.toEqual([]);
+
+  release();
+  await expect.element(page.getByRole('heading', { name: 'Complete!' })).toBeVisible();
+  expect(await savedTallies()).toEqual([]);
+});
+
 it('marks an assisted result', async () => {
   const el = await mount();
   await page.getByRole('button', { name: 'Start Tally' }).click();
