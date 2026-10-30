@@ -16,6 +16,17 @@ Keep acceptance evidence in the owning bead. Add a regression for a new failure 
 promote recurring review feedback into a guard or owning document. Do not label an unverified
 area complete merely because adjacent tests pass.
 
+## zod 4.6.7 (2026-10-30)
+
+The catalog pins zod at 4.6.7 instead of 4.6.5. Zod before 4.6.6 can exhaust memory while
+validating oversized constrained collections (GHSA-mrhx-c7xc-m3w5, high), and the libraries
+parse network, storage and configuration input with it. The lockfile changes only zod, and
+`pnpm audit` no longer reports the advisory. No source or test change was needed. The full
+`pnpm check` passes: 101 unit files with 1,277 tests and 15 skips, 29 browser files with 183
+tests, all package builds, and the installed consumer for all 17 tarballs, whose packed
+manifests now name zod 4.6.7. A patch Changeset covers the ten libraries that depend on zod;
+versions stay at 0.3.0, and nothing is published.
+
 ## Gyral 0.3.8 and Gyral as a peer (2026-10-29)
 
 The catalog pins the five Gyral packages at 0.3.8. The five libraries that import Gyral

@@ -31,7 +31,7 @@ catalog:
   workbox-strategies: 7.4.1
   three: 0.186.1
   ws: 8.22.0
-  zod: 4.6.5
+  zod: 4.6.7
 # The Gyral packages the published libraries import, as peers (`catalog:peers`): the app's own
 # copy of each is shared, never a second core (Gyral's component-libraries guide). The caret
 # floor is the oldest Gyral the libraries are built and tested with; raise it when they need a
