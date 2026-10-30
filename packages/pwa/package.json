@@ -1,6 +1,6 @@
 {
   "name": "@joystyk/pwa",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "The Joystyk PWA: the service worker and its cache tiers, offline pinning, update prompts at safe points, the kill switch, and the build step that emits sw.js and the asset manifests.",
   "private": false,
   "type": "module",

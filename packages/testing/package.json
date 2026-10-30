@@ -1,6 +1,6 @@
 {
   "name": "@joystyk/testing",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Dev-time conformance suites for engines and simulations, plus test RNGs, a fake clock, fake storage and fixture builders.",
   "private": false,
   "type": "module",

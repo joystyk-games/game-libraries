@@ -1,6 +1,6 @@
 {
   "name": "@joystyk/session",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Session runners: the local runner for discrete engines, the fixed-step scheduler for simulations and the remote client for server rooms, behind ports with browser adapters.",
   "private": false,
   "type": "module",

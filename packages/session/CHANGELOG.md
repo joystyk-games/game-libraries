@@ -1,5 +1,13 @@
 # @joystyk/session
 
+## 0.3.0
+
+### Patch Changes
+
+- @joystyk/contracts@0.3.0
+  - @joystyk/kit@0.3.0
+  - @joystyk/rooms@0.3.0
+
 ## 0.2.1
 
 ### Patch Changes

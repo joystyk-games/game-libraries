@@ -1,6 +1,6 @@
 {
   "name": "@joystyk/daily",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Daily puzzles: the UTC puzzle day, release times in local time, puzzle ids, streaks, spoiler-free share text, and a content client with an offline cache.",
   "private": false,
   "type": "module",
